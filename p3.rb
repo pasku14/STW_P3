@@ -4,7 +4,7 @@ require 'rack'
 require 'haml'
 require 'thin'
   
-module RockPaperScissors
+module PPT
 	class App
 		#Inicializacion de variables de la clase.
 		def initialize(app = nil)
