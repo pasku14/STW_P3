@@ -5,60 +5,50 @@ require 'haml'
 require 'thin'
   
 module RockPaperScissors
-
 	class App
-
+		#Inicializacion de variables de la clase.
 		def initialize(app = nil)
 			@app = app
-			@content_type = :html
 			@defeat = {'Piedra' => 'Tijeras', 'Papel' => 'Piedra', 'Tijeras' => 'Papel'}
-			@throws = @defeat.keys
-			@throws = @defeat.keys
-			@choose = @throws.map { |x| %Q{ <li><a href="/?choice=#{x}">#{x}</a></li> } }.join("\n")
-			@choose = "<p>\n<ul>\n#{@choose}\n</ul>"
-
+			@throws = []
 		end
-
+		
+		#Acceso al archivo HAML para mostrar los resultados
+		def haml(template, resultado)
+		  template_file = File.open(template, 'r')
+		  Haml::Engine.new(File.read(template_file)).render({},info)
+		end
+		
+		#Llamada del Rack con su enviroment.
 		def call(env)
 			req = Rack::Request.new(env)
-
-			req.env.keys.sort.each { |x| puts "#{x} => #{req.env[x]}" }
-
-			computer_throw = @throws.sample
 			player_throw = req.GET["choice"]
-			anwser = if !@throws.include?(player_throw)
-				"Elige:"
-				elsif player_throw == computer_throw
-				"Empatastes"
-				elsif computer_throw == @defeat[player_throw]
-				"Ganaste; #{player_throw} vence a #{computer_throw}."
-				else
-				"Perdistes; #{computer_throw} vence a #{player_throw}."
+			@throws = @defeat.keys
+
+			if !@throws.include?(player_throw)
+				do_it = "Elige jugador"
+			else
+				computer_throw = @throws.sample
+			end
+			
+			if (player_throw == computer_throw && (player_throw != '' || computer_throw!=''))
+				answer = "empate"
+			elsif computer_throw == @defeat[player_throw]
+				answer = "jugador gana"
+			else
+				answer = "jugador pierde"
 			end
 
-			res = Rack::Response.new
-			res.write <<-"EOS"
-			<html>
-				<title>Juego Piedra, Papel y Tijeras.</title>
-			<body>
-				<h1>
-					#{anwser}
-					#{@choose}
-				</h1>
-			</body>
-			</html>
-			EOS
-			res.finish
+			info = {
+				:do_it => do_it,
+				:anwser => anwser,
+				:throws => @throws,
+				:computer_throw => computer_throw,
+				:player_throw => player_throw
+				}
+				
+			res = Rack::Response.new(haml("views/Haml.html.haml", resultado))
+			
 		end
 	end
-end
-
-if $0 == __FILE__
-
-	#Rack::Handler::WEBrick.run Ver_Tweets.new #
-	Rack::Server.start(
-  		:app => RockPaperScissors::App.new,
-  		:Port => 8000,
-  		:server => 'thin'
-	 )
 end
