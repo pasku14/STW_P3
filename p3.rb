@@ -57,7 +57,7 @@ if $0 == __FILE__
 
 	#Rack::Handler::WEBrick.run Ver_Tweets.new #
 	Rack::Server.start(
-  		:app => App.new,
+  		:app => RockPaperScissors::App.new,
   		:Port => 8000,
   		:server => 'thin'
 	 )
