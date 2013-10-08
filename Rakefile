@@ -1,4 +1,4 @@
-desc "Ejecucion Ver Tweets de un Usuario"
+desc "Ejecucion del juego PPT"
 task :default do
-  sh "ruby Ver_Tweets.rb"
+  sh "ruby p3.rb"
 end
