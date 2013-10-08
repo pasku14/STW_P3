@@ -4,32 +4,37 @@
     %meta{'http-equiv' => 'Content-Type', :content => 'text/html'}
   %body
     %h1 Eleccion del Usuario:
+    %h2= player_throw
     %br
     -if (do_it == 'Elige jugador')
       %h2 Elige Jugador!
-      %ol
-        %a{:href => '?choice=rock'} 
-          %button Piedra
-        %a{:href => '?choice=paper'} 
-          %button Papel
-        %a{:href => '?choice=scissors'} 
-          %button Tijeras
+      %br
+      %a{:href => '?choice=Piedra'} 
+        %button Piedra
+      %br
+      %a{:href => '?choice=Papel'} 
+        %button Papel
+      %br
+      %a{:href => '?choice=Tijeras'} 
+        %button Tijeras
 
     %h1 VS
     %br
     %h1 Eleccion del PC:
+    %h2= computer_throw
     %br
     
     %h1 Resultado: 
-    -if (anwser == 'empate')
+    -if (answer == 'empate')
       %h2 Empate!
-    -elsif (anwser == 'jugador gana')
+    -elsif (answer == 'jugador gana')
       %h2 Ganaste!
-    -elsif (anwser == 'jugador pierde')
+    -elsif (answer == 'jugador pierde')
       %h2 Perdiste!!!
-      -else
-        %h2 Empieza a jugar!!
-
+    -elsif (answer == 'nada')
+      %h2 Empieza a jugar!!
+      
+    %br
     %a{:href => '/'} 
       %button Juega otra vez   
     

@@ -14,7 +14,7 @@ module PPT
 		end
 		
 		#Acceso al archivo HAML para mostrar los resultados
-		def haml(template, resultado)
+		def haml(template, info)
 		  template_file = File.open(template, 'r')
 		  Haml::Engine.new(File.read(template_file)).render({},info)
 		end
@@ -22,6 +22,8 @@ module PPT
 		#Llamada del Rack con su enviroment.
 		def call(env)
 			req = Rack::Request.new(env)
+			answer = 'nada'
+			computer_throw = ''
 			player_throw = req.GET["choice"]
 			@throws = @defeat.keys
 
@@ -31,23 +33,25 @@ module PPT
 				computer_throw = @throws.sample
 			end
 			
-			if (player_throw == computer_throw && (player_throw != '' || computer_throw!=''))
+			if ( player_throw == computer_throw )
 				answer = "empate"
-			elsif computer_throw == @defeat[player_throw]
+			elsif ( computer_throw == @defeat[player_throw] )
 				answer = "jugador gana"
+			elsif ( answer == 'nada' )
+				answer = 'nada'
 			else
 				answer = "jugador pierde"
 			end
 
 			info = {
 				:do_it => do_it,
-				:anwser => anwser,
+				:answer => answer,
 				:throws => @throws,
 				:computer_throw => computer_throw,
 				:player_throw => player_throw
 				}
 				
-			res = Rack::Response.new(haml("views/Haml.html.haml", resultado))
+			res = Rack::Response.new(haml("./Haml.html.haml", info))
 			
 		end
 	end
