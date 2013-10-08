@@ -11,7 +11,7 @@ module RockPaperScissors
 		def initialize(app = nil)
 			@app = app
 			@content_type = :html
-			@defeat = {'rock' => 'scissors', 'paper' => 'rock', 'scissors' => 'paper'}
+			@defeat = {'Piedra' => 'Tijeras', 'Papel' => 'Piedra', 'Tijeras' => 'Papel'}
 			@throws = @defeat.keys
 			@throws = @defeat.keys
 			@choose = @throws.map { |x| %Q{ <li><a href="/?choice=#{x}">#{x}</a></li> } }.join("\n")
@@ -27,13 +27,13 @@ module RockPaperScissors
 			computer_throw = @throws.sample
 			player_throw = req.GET["choice"]
 			anwser = if !@throws.include?(player_throw)
-				"Choose one of the following:"
+				"Elige:"
 				elsif player_throw == computer_throw
-				"You tied with the computer"
+				"Empatastes"
 				elsif computer_throw == @defeat[player_throw]
-				"Nicely done; #{player_throw} beats #{computer_throw}"
+				"Ganaste; #{player_throw} vence a #{computer_throw}."
 				else
-				"Ouch; #{computer_throw} beats #{player_throw}. Better luck next time!"
+				"Perdistes; #{computer_throw} vence a #{player_throw}."
 			end
 
 			res = Rack::Response.new
