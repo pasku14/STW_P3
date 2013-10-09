@@ -22,7 +22,7 @@ module PPT
 		#Llamada del Rack con su enviroment.
 		def call(env)
 			req = Rack::Request.new(env)
-			answer = 'nada'
+			answer = ''
 			computer_throw = ''
 			player_throw = req.GET["choice"]
 			@throws = @defeat.keys
@@ -37,8 +37,6 @@ module PPT
 				answer = "empate"
 			elsif ( computer_throw == @defeat[player_throw] )
 				answer = "jugador gana"
-			elsif ( answer == 'nada' )
-				answer = 'nada'
 			else
 				answer = "jugador pierde"
 			end

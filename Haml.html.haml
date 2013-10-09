@@ -25,14 +25,14 @@
     %br
     
     %h1 Resultado: 
-    -if (answer == 'empate')
-      %h2 Empate!
+    -if (do_it == 'Elige jugador')
+      %h2 Empieza a jugar!!
     -elsif (answer == 'jugador gana')
       %h2 Ganaste!
     -elsif (answer == 'jugador pierde')
       %h2 Perdiste!!!
-    -elsif (answer == 'nada')
-      %h2 Empieza a jugar!!
+    -elsif (answer == 'empate')
+      %h2 Empate!
       
     %br
     %a{:href => '/'} 
