@@ -44,7 +44,6 @@ module PPT
 			info = {
 				:do_it => do_it,
 				:answer => answer,
-				:throws => @throws,
 				:computer_throw => computer_throw,
 				:player_throw => player_throw
 				}
